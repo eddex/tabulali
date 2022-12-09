@@ -1,8 +1,9 @@
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { getStakeKeyByAddressAsync } from "../services/KoiosClient";
-import { StorageUpdatedEvent } from "../services/Events";
+
+import { getStakeAddressByPaymentAddressAsync } from "../services/KoiosClient";
+import { addStakeKeyToLocalStorage } from "../services/LocalStorage";
 
 function AddWallet() {
   const [input, setInput] = useState("");
@@ -13,23 +14,13 @@ function AddWallet() {
   };
 
   const getStakeKey = async (addrOrStakeKey) => {
-    if (addrOrStakeKey.length == 59 && addrOrStakeKey.startsWith("stake1")) {
+    if (addrOrStakeKey.length === 59 && addrOrStakeKey.startsWith("stake1")) {
       return addrOrStakeKey;
     }
-    if (addrOrStakeKey.length == 103 && addrOrStakeKey.startsWith("addr1")) {
-      return await getStakeKeyByAddressAsync(addrOrStakeKey);
+    if (addrOrStakeKey.length === 103 && addrOrStakeKey.startsWith("addr1")) {
+      return await getStakeAddressByPaymentAddressAsync(addrOrStakeKey);
     }
     return null;
-  };
-
-  const addStakeKeyToLocalStorage = (stakeKey) => {
-    const items = JSON.parse(localStorage.getItem("stakeAddresses"));
-    if (items && items.includes(stakeKey)) return;
-    const newItems = items
-      ? JSON.stringify([...items, stakeKey])
-      : JSON.stringify([stakeKey]);
-    localStorage.setItem("stakeAddresses", newItems);
-    window.dispatchEvent(new Event(StorageUpdatedEvent));
   };
 
   const onClick = async () => {
