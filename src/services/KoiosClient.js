@@ -122,3 +122,25 @@ export const getPoolInfo = async (bech32PoolIds) => {
     console.log(e);
   }
 };
+
+export const getEpochProgress = async () => {
+  console.log("::: KoiosClient:getEpochProgress");
+  const options = {
+    method: "GET",
+    url: `${KoiosProxyUrl}/api/v0/epoch_info`,
+    params: { order: "epoch_no.desc", limit: "2" },
+    headers: { Accept: "application/json" },
+  };
+
+  try {
+    const response = await Axios.request(options);
+    console.log(response);
+    const epoch = response.data[1]; // first item is the next epoch
+    const now = new Date().getTime() / 1000;
+    const fullRange = epoch.end_time - epoch.start_time;
+    const currentProgress = now - epoch.start_time;
+    return currentProgress / fullRange;
+  } catch (e) {
+    console.log(e);
+  }
+};

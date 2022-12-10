@@ -11,6 +11,7 @@ import Footer from "./components/Footer";
 import { getAllAccountsAsync, getPoolInfo } from "./services/KoiosClient";
 import { StorageUpdatedEvent } from "./services/Events";
 import { getWalletsFromLocalStorage } from "./services/LocalStorage";
+import EpochProgress from "./components/EpochProgress";
 
 function App() {
   const [wallets, setWallets] = useState([]);
@@ -72,6 +73,11 @@ function App() {
       <Row>
         <Col>
           <Summary wallets={wallets} pools={pools} />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <EpochProgress start={1506203091} end={1506635091} />
         </Col>
       </Row>
       <hr />
