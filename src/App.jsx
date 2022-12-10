@@ -10,16 +10,36 @@ import Footer from "./components/Footer";
 
 import { getAllAccountsAsync } from "./services/KoiosClient";
 import { StorageUpdatedEvent } from "./services/Events";
-import { getStakeKeysFromLocalStorage } from "./services/LocalStorage";
+import { getWalletsFromLocalStorage } from "./services/LocalStorage";
 
 function App() {
   const [wallets, setWallets] = useState([]);
+
+  const getWalletNameByStakeKey = (localWallets, stakeKey) => {
+    let name = "";
+    if (localWallets) {
+      localWallets.forEach((w, _) => {
+        if (w.stakeKey === stakeKey) {
+          name = w.name;
+        }
+      });
+    }
+    return name;
+  };
+
   const onWalletAdded = () => {
-    getAllAccountsAsync(getStakeKeysFromLocalStorage(), true).then(
-      (accounts) => {
-        if (accounts) setWallets(accounts);
+    const localWallets = getWalletsFromLocalStorage();
+    const stakeKeys = localWallets ? localWallets.map((w) => w.stakeKey) : null;
+    getAllAccountsAsync(stakeKeys, true).then((accountInfos) => {
+      if (accountInfos) {
+        var extendedAccountInfos = [];
+        accountInfos.forEach((acc, _) => {
+          acc.name = getWalletNameByStakeKey(localWallets, acc.stake_address);
+          extendedAccountInfos.push(acc);
+        });
+        setWallets(extendedAccountInfos);
       }
-    );
+    });
   };
 
   // will be called twice in debug mode but not in prod due to UseStrict (see index.js)

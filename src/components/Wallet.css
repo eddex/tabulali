@@ -1,0 +1,9 @@
+.edit-icon {
+  float: right;
+  opacity: 50%;
+  cursor: pointer;
+}
+
+.edit-icon:hover {
+  opacity: 100%;
+}

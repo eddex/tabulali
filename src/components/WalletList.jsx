@@ -6,6 +6,7 @@ const WalletList = (props) => {
       {props.wallets &&
         props.wallets.map((account) => (
           <Wallet
+            name={account.name}
             key={account.stake_address}
             stakeKey={account.stake_address}
             ada={account.total_balance / 1000000}

@@ -2,9 +2,7 @@ const Summary = (props) => {
   const totalAda = () => {
     if (!props.wallets) return 0;
     let total = 0;
-    console.log(props.wallets);
-    props.wallets.forEach((wallet, i) => {
-      console.log(wallet);
+    props.wallets.forEach((wallet, _) => {
       total += wallet.total_balance / 1000000;
     });
     return total;

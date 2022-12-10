@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
 import { getStakeAddressByPaymentAddressAsync } from "../services/KoiosClient";
-import { addStakeKeyToLocalStorage } from "../services/LocalStorage";
+import { addWalletToLocalStorage } from "../services/LocalStorage";
 
 function AddWallet() {
   const [input, setInput] = useState("");
@@ -27,7 +27,7 @@ function AddWallet() {
   const onClick = async () => {
     const stakeKey = await getStakeKey(input);
     if (stakeKey) {
-      addStakeKeyToLocalStorage(stakeKey);
+      addWalletToLocalStorage(stakeKey);
       setInputValid(true);
     } else {
       setInputValid(false);
