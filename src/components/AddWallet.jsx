@@ -45,6 +45,12 @@ function AddWallet() {
           isValid={inputValid}
           isInvalid={inputValid != null ? !inputValid : null}
           onChange={onInputChange}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              onClick();
+            }
+          }}
         />
         <Button
           id="addWalletButton"

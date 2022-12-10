@@ -23,6 +23,12 @@ const WalletTitleEdit = (props) => {
           placeholder="Enter a name for this wallet"
           aria-describedby="saveTitle"
           onChange={onInputChange}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              onSaveButtonClicked();
+            }
+          }}
         />
         <Button
           id="saveTitle"
