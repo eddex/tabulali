@@ -6,6 +6,7 @@ import "./Wallet.css";
 
 import WalletTitleEdit from "./Wallet.TitleEdit";
 import { removeWalletFromLocalStorage } from "../services/LocalStorage";
+import { toLocalNumber } from "../services/Localization";
 
 const Wallet = (props) => {
   const [editTitle, setEditTitle] = useState(false);
@@ -55,7 +56,7 @@ const Wallet = (props) => {
       </Card.Header>
       <Card.Body>
         <Card.Text>
-          ADA: <b>{props.ada}</b>
+          ADA: <b>{toLocalNumber(props.ada)}</b>
         </Card.Text>
       </Card.Body>
     </Card>

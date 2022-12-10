@@ -1,5 +1,7 @@
 import Badge from "react-bootstrap/Badge";
 
+import { toLocalNumber } from "../services/Localization";
+
 const Summary = (props) => {
   const totalAda = () => {
     if (!props.wallets) return 0;
@@ -13,7 +15,7 @@ const Summary = (props) => {
     <div className="mt-3">
       <h1>Summary</h1>
       <p>
-        Total balance: <b>{totalAda()} ADA</b>
+        Total balance: <b>{toLocalNumber(totalAda())} ADA</b>
       </p>
       <p>
         {props.pools && props.pools.length > 0 && (
