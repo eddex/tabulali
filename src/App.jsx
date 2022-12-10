@@ -3,6 +3,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
+import Summary from "./components/Summary";
 import AddWallet from "./components/AddWallet";
 import WalletList from "./components/WalletList";
 import Footer from "./components/Footer";
@@ -41,14 +42,21 @@ function App() {
     <Container fluid="md">
       <Row>
         <Col>
-          <AddWallet />
+          <Summary wallets={wallets} />
         </Col>
       </Row>
+      <hr />
       <Row>
         <Col>
           <WalletList wallets={wallets} />
         </Col>
       </Row>
+      <Row>
+        <Col>
+          <AddWallet />
+        </Col>
+      </Row>
+      <hr />
       <Footer />
     </Container>
   );

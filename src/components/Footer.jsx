@@ -3,7 +3,6 @@ import Badge from "react-bootstrap/Badge";
 const Footer = () => {
   return (
     <div>
-      <hr />
       <p className="mb-0">
         Made by{" "}
         <a href="https://github.com/eddex" target="_blank">

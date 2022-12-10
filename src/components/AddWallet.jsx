@@ -37,7 +37,7 @@ function AddWallet() {
 
   return (
     <Form>
-      <Form.Group className="input-group mt-3" controlId="formAddWallet">
+      <Form.Group className="input-group mt-1" controlId="formAddWallet">
         <Form.Control
           type="text"
           placeholder="Enter stake key or wallet address"

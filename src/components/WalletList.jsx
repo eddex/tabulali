@@ -1,11 +1,8 @@
 import Wallet from "./Wallet";
-import Summary from "./Summary";
 
 const WalletList = (props) => {
   return (
-    <div className="mt-3">
-      <Summary />
-      <hr />
+    <div>
       {props.wallets &&
         props.wallets.map((account) => (
           <Wallet
@@ -14,6 +11,9 @@ const WalletList = (props) => {
             ada={account.total_balance / 1000000}
           />
         ))}
+      {(!props.wallets || props.wallets.length === 0) && (
+        <p>Add a wallet to get started.</p>
+      )}
     </div>
   );
 };
