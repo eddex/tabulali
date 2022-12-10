@@ -11,6 +11,7 @@ function AddWallet() {
 
   const onInputChange = (event) => {
     setInput(event.target.value);
+    setInputValid(null);
   };
 
   const getStakeKey = async (addrOrStakeKey) => {
