@@ -1,9 +1,10 @@
-.edit-icon {
+.action-icon {
   float: right;
   opacity: 50%;
   cursor: pointer;
+  margin-left: 5px;
 }
 
-.edit-icon:hover {
+.action-icon:hover {
   opacity: 100%;
 }

@@ -38,7 +38,25 @@ export const setWalletNameInLocalStorage = (stakeKey, name) => {
       }
       updatedWallets.push(wallet);
     });
-    console.log(wallets);
+    localStorage.setItem(
+      StakeAddressesLocalStorageKey,
+      JSON.stringify(updatedWallets)
+    );
+    window.dispatchEvent(new Event(StorageUpdatedEvent));
+  }
+};
+
+export const removeWalletFromLocalStorage = (stakeKey) => {
+  const wallets = JSON.parse(
+    localStorage.getItem(StakeAddressesLocalStorageKey)
+  );
+  if (wallets) {
+    const updatedWallets = [];
+    wallets.forEach((wallet, _) => {
+      if (wallet.stakeKey !== stakeKey) {
+        updatedWallets.push(wallet);
+      }
+    });
     localStorage.setItem(
       StakeAddressesLocalStorageKey,
       JSON.stringify(updatedWallets)

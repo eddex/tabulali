@@ -4,6 +4,7 @@ import Card from "react-bootstrap/Card";
 import "./Wallet.css";
 
 import WalletTitleEdit from "./Wallet.TitleEdit";
+import { removeWalletFromLocalStorage } from "../services/LocalStorage";
 
 const Wallet = (props) => {
   const [editTitle, setEditTitle] = useState(false);
@@ -26,7 +27,13 @@ const Wallet = (props) => {
               props.stakeKey
             )}
             <i
-              className="bi-pencil-square edit-icon"
+              className="bi-trash action-icon"
+              role="img"
+              aria-label="remove button"
+              onClick={() => removeWalletFromLocalStorage(props.stakeKey)}
+            ></i>
+            <i
+              className="bi-pencil-square action-icon"
               role="img"
               aria-label="edit button"
               onClick={() => setEditTitle(!editTitle)}
