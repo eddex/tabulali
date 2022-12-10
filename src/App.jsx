@@ -14,9 +14,11 @@ import { getStakeKeysFromLocalStorage } from "./services/LocalStorage";
 function App() {
   const [wallets, setWallets] = useState([]);
   const onWalletAdded = () => {
-    getAllAccountsAsync(getStakeKeysFromLocalStorage()).then((accounts) => {
-      if (accounts) setWallets(accounts);
-    });
+    getAllAccountsAsync(getStakeKeysFromLocalStorage(), true).then(
+      (accounts) => {
+        if (accounts) setWallets(accounts);
+      }
+    );
   };
 
   // will be called twice in debug mode but not in prod due to UseStrict (see index.js)

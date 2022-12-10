@@ -52,7 +52,7 @@ export const getStakeAddressByPaymentAddressAsync = async (paymentAddress) => {
 
   const options = {
     method: "POST",
-    url: `${KoiosProxyUrl}/api/v0/address_info`,
+    url: `${KoiosProxyUrl}/api/v0/address_info?select=stake_address`,
     headers: { Accept: "application/json", "Content-Type": "application/json" },
     data: {
       _addresses: [`${paymentAddress}`],
@@ -68,7 +68,7 @@ export const getStakeAddressByPaymentAddressAsync = async (paymentAddress) => {
   }
 };
 
-export const getAllAccountsAsync = async (stakeAddresses) => {
+export const getAllAccountsAsync = async (stakeAddresses, cached = false) => {
   console.log("getAllAccountsAsync");
 
   const data = getFromCache(CacheKeyGetAllAccounts, stakeAddresses, 5);
@@ -76,7 +76,7 @@ export const getAllAccountsAsync = async (stakeAddresses) => {
 
   const options = {
     method: "POST",
-    url: `${KoiosProxyUrl}/api/v0/account_info`,
+    url: `${KoiosProxyUrl}/api/v0/account_info${cached ? "_cached" : ""}`,
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
