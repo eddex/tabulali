@@ -1,3 +1,5 @@
+import Badge from "react-bootstrap/Badge";
+
 const Summary = (props) => {
   const totalAda = () => {
     if (!props.wallets) return 0;
@@ -12,6 +14,20 @@ const Summary = (props) => {
       <h1>Summary</h1>
       <p>
         Total balance: <b>{totalAda()} ADA</b>
+      </p>
+      <p>
+        {props.pools && props.pools.length > 0 && (
+          <>
+            Pools:{" "}
+            {props.pools.map((p) => (
+              <span key={p.meta_json.ticker}>
+                <Badge className="ml-1" bg="secondary">
+                  {p.meta_json.ticker}
+                </Badge>{" "}
+              </span>
+            ))}
+          </>
+        )}
       </p>
     </div>
   );

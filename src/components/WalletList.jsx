@@ -1,6 +1,18 @@
+import { useState } from "react";
+
 import Wallet from "./Wallet";
 
 const WalletList = (props) => {
+  const getPool = (poolId) => {
+    let pool = null;
+    props.pools.forEach((p, _) => {
+      if (p.pool_id_bech32 === poolId) {
+        pool = p;
+      }
+    });
+    return pool;
+  };
+
   return (
     <div>
       {props.wallets &&
@@ -10,6 +22,7 @@ const WalletList = (props) => {
             key={account.stake_address}
             stakeKey={account.stake_address}
             ada={account.total_balance / 1000000}
+            pool={getPool(account.delegated_pool)}
           />
         ))}
       {(!props.wallets || props.wallets.length === 0) && (

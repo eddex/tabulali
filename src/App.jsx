@@ -8,12 +8,13 @@ import AddWallet from "./components/AddWallet";
 import WalletList from "./components/WalletList";
 import Footer from "./components/Footer";
 
-import { getAllAccountsAsync } from "./services/KoiosClient";
+import { getAllAccountsAsync, getPoolInfo } from "./services/KoiosClient";
 import { StorageUpdatedEvent } from "./services/Events";
 import { getWalletsFromLocalStorage } from "./services/LocalStorage";
 
 function App() {
   const [wallets, setWallets] = useState([]);
+  const [pools, setPools] = useState([]);
 
   const getWalletNameByStakeKey = (localWallets, stakeKey) => {
     let name = "";
@@ -30,14 +31,22 @@ function App() {
   const onWalletAdded = () => {
     const localWallets = getWalletsFromLocalStorage();
     const stakeKeys = localWallets ? localWallets.map((w) => w.stakeKey) : null;
+
+    if (!stakeKeys || stakeKeys.length < 1) return;
+
     getAllAccountsAsync(stakeKeys, true).then((accountInfos) => {
-      if (accountInfos) {
+      if (accountInfos && accountInfos.length > 0) {
         var extendedAccountInfos = [];
         accountInfos.forEach((acc, _) => {
           acc.name = getWalletNameByStakeKey(localWallets, acc.stake_address);
           extendedAccountInfos.push(acc);
         });
         setWallets(extendedAccountInfos);
+        getPoolInfo(extendedAccountInfos.map((w) => w.delegated_pool)).then(
+          (pools) => {
+            setPools(pools);
+          }
+        );
       }
     });
   };
@@ -62,13 +71,13 @@ function App() {
     <Container fluid="md">
       <Row>
         <Col>
-          <Summary wallets={wallets} />
+          <Summary wallets={wallets} pools={pools} />
         </Col>
       </Row>
       <hr />
       <Row>
         <Col>
-          <WalletList wallets={wallets} />
+          <WalletList wallets={wallets} pools={pools} />
         </Col>
       </Row>
       <Row>

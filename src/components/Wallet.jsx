@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Card from "react-bootstrap/Card";
+import Badge from "react-bootstrap/Badge";
 
 import "./Wallet.css";
 
@@ -21,10 +22,21 @@ const Wallet = (props) => {
             {props.name ? (
               <>
                 {props.name}
-                <span style={{ fontWeight: 500 }}> :: {props.stakeKey}</span>
+                <span style={{ fontWeight: 500 }}>
+                  {" :: "}
+                  {props.stakeKey}
+                </span>{" "}
+                {props.pool && (
+                  <Badge bg="dark">{props.pool.meta_json.ticker}</Badge>
+                )}
               </>
             ) : (
-              props.stakeKey
+              <>
+                {props.stakeKey}{" "}
+                {props.pool && (
+                  <Badge bg="dark">{props.pool.meta_json.ticker}</Badge>
+                )}
+              </>
             )}
             <i
               className="bi-trash action-icon"

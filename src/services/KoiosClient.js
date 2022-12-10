@@ -6,6 +6,7 @@ const Cache = {};
 
 const CacheKeyGetStakeKeyByAddress = "StakeKeyByAddress";
 const CacheKeyGetAllAccounts = "AllAccounts";
+const CacheKeyGetPoolInfo = "PoolInfo";
 
 const compareObjects = (a, b) => {
   return JSON.stringify(a) === JSON.stringify(b);
@@ -20,15 +21,16 @@ function addMinutes(date, minutes) {
  * param maxAgeInMinutes: can be set to null for no cache time limit
  */
 const getFromCache = (key, id, maxAgeInMinutes) => {
-  console.log(Cache[key]);
   if (
     !Cache[key] ||
     (maxAgeInMinutes &&
       new Date() > addMinutes(Cache[key].timestamp, maxAgeInMinutes)) ||
     !compareObjects(Cache[key].id, id)
   ) {
+    console.log("cache missed");
     return null;
   }
+  console.log("cache hit");
   return Cache[key].data;
 };
 
@@ -45,14 +47,15 @@ const setCache = (key, id, data) => {
 };
 
 export const getStakeAddressByPaymentAddressAsync = async (paymentAddress) => {
-  console.log("getStakeKeyByAddressAsync");
+  console.log("::: KoiosClient:getStakeKeyByAddressAsync");
 
   const data = getFromCache(CacheKeyGetStakeKeyByAddress, paymentAddress, null);
   if (data) return data;
 
   const options = {
     method: "POST",
-    url: `${KoiosProxyUrl}/api/v0/address_info?select=stake_address`,
+    url: `${KoiosProxyUrl}/api/v0/address_info`,
+    params: { select: "stake_address" },
     headers: { Accept: "application/json", "Content-Type": "application/json" },
     data: {
       _addresses: [`${paymentAddress}`],
@@ -69,7 +72,7 @@ export const getStakeAddressByPaymentAddressAsync = async (paymentAddress) => {
 };
 
 export const getAllAccountsAsync = async (stakeAddresses, cached = false) => {
-  console.log("getAllAccountsAsync");
+  console.log("::: KoiosClient:getAllAccountsAsync");
 
   const data = getFromCache(CacheKeyGetAllAccounts, stakeAddresses, 5);
   if (data) return data;
@@ -77,6 +80,7 @@ export const getAllAccountsAsync = async (stakeAddresses, cached = false) => {
   const options = {
     method: "POST",
     url: `${KoiosProxyUrl}/api/v0/account_info${cached ? "_cached" : ""}`,
+    params: { select: "stake_address,delegated_pool,total_balance" },
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -88,6 +92,31 @@ export const getAllAccountsAsync = async (stakeAddresses, cached = false) => {
   try {
     const response = await Axios.request(options);
     setCache(CacheKeyGetAllAccounts, stakeAddresses, response.data);
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const getPoolInfo = async (bech32PoolIds) => {
+  console.log("::: KoiosClient:getPoolInfo");
+
+  const data = getFromCache(CacheKeyGetPoolInfo, bech32PoolIds, null);
+  if (data) return data;
+
+  const options = {
+    method: "POST",
+    url: `${KoiosProxyUrl}/api/v0/pool_info`,
+    params: { select: "pool_id_bech32,meta_json" },
+    headers: { Accept: "application/json", "Content-Type": "application/json" },
+    data: {
+      _pool_bech32_ids: bech32PoolIds,
+    },
+  };
+
+  try {
+    const response = await Axios.request(options);
+    setCache(CacheKeyGetPoolInfo, bech32PoolIds, response.data);
     return response.data;
   } catch (e) {
     console.log(e);
