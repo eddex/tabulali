@@ -64,3 +64,17 @@ export const removeWalletFromLocalStorage = (stakeKey) => {
     window.dispatchEvent(new Event(StorageUpdatedEvent));
   }
 };
+
+export const importWalletConfig = (walletConfigString) => {
+  try {
+    var walletConfig = JSON.parse(walletConfigString);
+    if (!walletConfigString || !Array.isArray(walletConfig)) {
+      console.log("invalid wallet export: ", walletConfigString);
+      return;
+    }
+    localStorage.setItem(StakeAddressesLocalStorageKey, walletConfigString);
+    window.dispatchEvent(new Event(StorageUpdatedEvent));
+  } catch (e) {
+    console.log("invalid wallet export: ", walletConfigString);
+  }
+};

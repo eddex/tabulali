@@ -1,0 +1,8 @@
+.clickable {
+  cursor: pointer;
+}
+
+.word-wrap {
+  word-wrap: break-word;
+  background-color: var(--bs-gray-900);
+}

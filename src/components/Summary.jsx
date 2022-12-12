@@ -12,7 +12,7 @@ const Summary = (props) => {
     return total;
   };
   return (
-    <div className="mt-3">
+    <div className="mt-2">
       <h1>Summary</h1>
       <p>
         Total balance: <b>{toLocalNumber(totalAda())} ADA</b>

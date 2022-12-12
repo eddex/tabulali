@@ -12,6 +12,7 @@ import { getAllAccountsAsync, getPoolInfo } from "./services/KoiosClient";
 import { StorageUpdatedEvent } from "./services/Events";
 import { getWalletsFromLocalStorage } from "./services/LocalStorage";
 import EpochProgress from "./components/EpochProgress";
+import Toolbar from "./components/Toolbar";
 
 function App() {
   const [wallets, setWallets] = useState([]);
@@ -70,6 +71,11 @@ function App() {
 
   return (
     <Container fluid="md">
+      <Row>
+        <Col>
+          <Toolbar />
+        </Col>
+      </Row>
       <Row>
         <Col>
           <Summary wallets={wallets} pools={pools} />
