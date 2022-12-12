@@ -135,8 +135,11 @@ export const getEpochProgress = async () => {
   try {
     const response = await Axios.request(options);
     console.log(response);
-    const epoch = response.data[1]; // first item is the next epoch
     const now = new Date().getTime() / 1000;
+    let epoch = response.data[1];
+    if (response.data[0].start_time && response.data[0].start_time <= now) {
+      epoch = response.data[0];
+    }
     const fullRange = epoch.end_time - epoch.start_time;
     const currentProgress = now - epoch.start_time;
     return currentProgress / fullRange;
