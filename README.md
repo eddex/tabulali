@@ -29,10 +29,19 @@ You can configure the proxy url in `src/services/KoiosClient.js`, if you use a d
 - [ ] Store wallet data in local storage and show it on start before updating the data from API
 - [ ] Show amount of ADA in UTxOs and on reward address
 - [x] Epoch progress bar
+- [x] Export and import wallet configuration
+- [ ] Update data periodically
+- [ ] Add user settings
+- [ ] Configure preferred fiat currency
+- [ ] Show total value (fiat)
+- [ ] Show ADA price (fiat)
+- [ ] Set average buy price (fiat)
+- [ ] Show profit/loss (fiat)
 
 ### Long term
 
-- [ ] Show list of native assets (FT & NFT) with approximate ADA value
+- [ ] Show list of native assets (FT & NFT)
+- [ ] Show approximate ADA value of native assets
 - [ ] Wallet connect button for one click stake delegation (maybe using [MeshJS](https://mesh.martify.io/))
 
 ## 🙏 Attributions
