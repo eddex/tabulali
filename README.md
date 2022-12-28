@@ -33,8 +33,8 @@ You can configure the proxy url in `src/services/KoiosClient.js`, if you use a d
 - [ ] Update data periodically
 - [ ] Add user settings
 - [ ] Configure preferred fiat currency
-- [ ] Show total value (fiat)
-- [ ] Show ADA price (fiat)
+- [x] Show total value (fiat)
+- [x] Show ADA price (fiat)
 - [ ] Set average buy price (fiat)
 - [ ] Show profit/loss (fiat)
 
@@ -49,3 +49,4 @@ You can configure the proxy url in `src/services/KoiosClient.js`, if you use a d
 - Blockchain data is provided by [Koios.rest](https://koios.rest) - a decentralized and elastic RESTful query layer for exploring data on Cardano
 - Logo contains an emoji designed by [OpenMoji](https://openmoji.org/) - the open-source emoji and icon project. License: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/#)
 - Using [Bootstrap](https://getbootstrap.com/) CSS framework with [bootswatch Quartz](https://bootswatch.com/quartz/) theme.
+- Prices are provided by [Coingecko](https://coingecko.com)

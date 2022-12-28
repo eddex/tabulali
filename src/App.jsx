@@ -7,16 +7,18 @@ import Summary from "./components/Summary";
 import AddWallet from "./components/AddWallet";
 import WalletList from "./components/WalletList";
 import Footer from "./components/Footer";
+import EpochProgress from "./components/EpochProgress";
+import Toolbar from "./components/Toolbar";
 
 import { getAllAccountsAsync, getPoolInfo } from "./services/KoiosClient";
 import { StorageUpdatedEvent } from "./services/Events";
 import { getWalletsFromLocalStorage } from "./services/LocalStorage";
-import EpochProgress from "./components/EpochProgress";
-import Toolbar from "./components/Toolbar";
+import { getAdaPrice } from "./services/CoingeckoClient";
 
 function App() {
   const [wallets, setWallets] = useState([]);
   const [pools, setPools] = useState([]);
+  const [adaPrice, setAdaPrice] = useState(0);
 
   const getWalletNameByStakeKey = (localWallets, stakeKey) => {
     let name = "";
@@ -45,10 +47,14 @@ function App() {
       });
       setWallets(extendedAccountInfos);
     }
+
     const pools = await getPoolInfo(
       extendedAccountInfos.map((w) => w.delegated_pool)
     );
     setPools(pools);
+
+    const adaPrice = await getAdaPrice("chf");
+    setAdaPrice(adaPrice);
   };
 
   // will be called twice in debug mode but not in prod due to UseStrict (see index.js)
@@ -81,7 +87,7 @@ function App() {
       </Row>
       <Row>
         <Col>
-          <Summary wallets={wallets} pools={pools} />
+          <Summary wallets={wallets} pools={pools} adaPrice={adaPrice} />
         </Col>
       </Row>
       <Row>
@@ -92,7 +98,7 @@ function App() {
       <hr />
       <Row>
         <Col>
-          <WalletList wallets={wallets} pools={pools} />
+          <WalletList wallets={wallets} pools={pools} adaPrice={adaPrice} />
         </Col>
       </Row>
       <Row>

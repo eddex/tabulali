@@ -1,4 +1,5 @@
 import Badge from "react-bootstrap/Badge";
+import coingeckoLogo from "../img/coingecko_logo.svg";
 
 const Footer = () => {
   return (
@@ -22,6 +23,12 @@ const Footer = () => {
           SOLPI
         </a>{" "}
         to support me!
+      </p>
+      <p>
+        Price data provided by{" "}
+        <a href="https://www.coingecko.com" target="_blank">
+          <img src={coingeckoLogo} height="30rem" />
+        </a>
       </p>
     </div>
   );

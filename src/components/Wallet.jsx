@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Card from "react-bootstrap/Card";
 import Badge from "react-bootstrap/Badge";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 import "./Wallet.css";
 
@@ -55,9 +57,14 @@ const Wallet = (props) => {
         )}
       </Card.Header>
       <Card.Body>
-        <Card.Text>
-          ADA: <b>{toLocalNumber(props.ada)}</b>
-        </Card.Text>
+        <Row>
+          <Col sm="6" lg="4" xl="3">
+            Balance: <b>ADA {toLocalNumber(props.ada)}</b>
+          </Col>
+          <Col>
+            Value: <b>CHF {toLocalNumber(props.value, 2)}</b>
+          </Col>
+        </Row>
       </Card.Body>
     </Card>
   );
