@@ -30,31 +30,34 @@ function App() {
     return name;
   };
 
-  const onWalletAdded = () => {
+  const onWalletAdded = async () => {
     const localWallets = getWalletsFromLocalStorage();
     const stakeKeys = localWallets ? localWallets.map((w) => w.stakeKey) : null;
 
     if (!stakeKeys || stakeKeys.length < 1) return;
 
-    getAllAccountsAsync(stakeKeys, true).then((accountInfos) => {
-      if (accountInfos && accountInfos.length > 0) {
-        var extendedAccountInfos = [];
-        accountInfos.forEach((acc, _) => {
-          acc.name = getWalletNameByStakeKey(localWallets, acc.stake_address);
-          extendedAccountInfos.push(acc);
-        });
-        setWallets(extendedAccountInfos);
-        getPoolInfo(extendedAccountInfos.map((w) => w.delegated_pool)).then(
-          (pools) => {
-            setPools(pools);
-          }
-        );
-      }
-    });
+    const accountInfos = await getAllAccountsAsync(stakeKeys, true);
+    if (accountInfos && accountInfos.length > 0) {
+      var extendedAccountInfos = [];
+      accountInfos.forEach((acc, _) => {
+        acc.name = getWalletNameByStakeKey(localWallets, acc.stake_address);
+        extendedAccountInfos.push(acc);
+      });
+      setWallets(extendedAccountInfos);
+    }
+    const pools = await getPoolInfo(
+      extendedAccountInfos.map((w) => w.delegated_pool)
+    );
+    setPools(pools);
   };
 
   // will be called twice in debug mode but not in prod due to UseStrict (see index.js)
-  useEffect(onWalletAdded, []);
+  useEffect(() => {
+    const loadData = async () => {
+      await onWalletAdded();
+    };
+    loadData(); // directly calling an async method in useEffect() is not allowed
+  }, []);
 
   useEffect(() => {
     function handleStorageUpdatedEvent(_) {
