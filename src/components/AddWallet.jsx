@@ -54,7 +54,7 @@ function AddWallet() {
         />
         <Button
           id="addWalletButton"
-          variant="primary"
+          variant="secondary"
           type="button"
           onClick={onClick}
         >

@@ -19,26 +19,27 @@ const Wallet = (props) => {
           <WalletTitleEdit
             onSave={() => setEditTitle(false)}
             stakeKey={props.stakeKey}
+            name={props.name}
           />
         ) : (
           <>
             {props.name ? (
               <>
+                {props.pool && (
+                  <Badge bg="dark">{props.pool.meta_json.ticker}</Badge>
+                )}{" "}
                 {props.name}
                 <span style={{ fontWeight: 500 }}>
                   {" :: "}
                   {props.stakeKey}
-                </span>{" "}
-                {props.pool && (
-                  <Badge bg="dark">{props.pool.meta_json.ticker}</Badge>
-                )}
+                </span>
               </>
             ) : (
               <>
-                {props.stakeKey}{" "}
                 {props.pool && (
                   <Badge bg="dark">{props.pool.meta_json.ticker}</Badge>
-                )}
+                )}{" "}
+                {props.stakeKey}
               </>
             )}
             <i

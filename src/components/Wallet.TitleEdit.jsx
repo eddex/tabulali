@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import { setWalletNameInLocalStorage } from "../services/LocalStorage";
 
 const WalletTitleEdit = (props) => {
-  const [name, setName] = useState("");
+  const [name, setName] = useState(props.name);
 
   const onInputChange = (event) => {
     setName(event.target.value);
@@ -19,7 +19,9 @@ const WalletTitleEdit = (props) => {
     <Form>
       <Form.Group className="input-group mt-1" controlId="formAddWallet">
         <Form.Control
+          autoFocus={true}
           type="text"
+          value={name}
           placeholder="Enter a name for this wallet"
           aria-describedby="saveTitle"
           onChange={onInputChange}
@@ -27,6 +29,9 @@ const WalletTitleEdit = (props) => {
             if (e.key === "Enter") {
               e.preventDefault();
               onSaveButtonClicked();
+            }
+            if (e.key === "Escape") {
+              props.onSave();
             }
           }}
         />
