@@ -40,7 +40,10 @@ function App() {
     const localWallets = getWalletsFromLocalStorage();
     const stakeKeys = localWallets ? localWallets.map((w) => w.stakeKey) : null;
 
-    if (!stakeKeys || stakeKeys.length < 1) return;
+    if (!stakeKeys || stakeKeys.length < 1) {
+      setWallets([]);
+      return;
+    }
 
     const accountInfos = await getAllAccountsAsync(stakeKeys, true);
     if (accountInfos && accountInfos.length > 0) {
