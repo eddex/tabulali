@@ -20,10 +20,9 @@ const Summary = (props) => {
 
   return (
     <div className="mt-2">
-      <h1>Summary</h1>
-      <p>
+      <h1>
         Total balance: <b>ADA {totalAda}</b>
-      </p>
+      </h1>
       <p>
         Total value:{" "}
         <b>
