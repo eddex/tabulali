@@ -30,13 +30,14 @@ You can configure the proxy url in `src/services/KoiosClient.js`, if you use a d
 - [ ] Show amount of ADA in UTxOs and on reward address
 - [x] Epoch progress bar
 - [x] Export and import wallet configuration
-- [ ] Update data periodically
-- [ ] Add user settings
-- [ ] Configure preferred fiat currency
+- [ ] Update data periodically/on demand
+- [x] Add user settings
+- [x] Configure preferred fiat currency
 - [x] Show total value (fiat)
 - [x] Show ADA price (fiat)
 - [ ] Set average buy price (fiat)
 - [ ] Show profit/loss (fiat)
+- [ ] Add wallet by AdaHandle
 
 ### Long term
 
