@@ -1,4 +1,3 @@
-import Badge from "react-bootstrap/Badge";
 import coingeckoLogo from "../img/coingecko_logo.svg";
 
 const Footer = () => {
@@ -9,20 +8,22 @@ const Footer = () => {
         <a href="https://github.com/eddex" target="_blank">
           eddex
         </a>
+        . Issues can be reported on{" "}
+        <a
+          href="https://github.com/eddex/tabulali"
+          target="_blank"
+          alt="eddex/tabulali repository"
+        >
+          GitHub
+        </a>
         .
       </p>
-      <p className="mb-0">
-        Consider to donate to keep this site running:{" "}
-        <Badge bg="primary">
-          addr1qytjrc9f52pzt0uqaz4m8dspqfyluntu2cgy6mmahfldngcctsq9c04g2al08nxkge2mxlnkfn49pyxj55euulrgzz2sxpcway
-        </Badge>
-      </p>
       <p>
-        Or stake with{" "}
+        Consider to delegate your ADA to the{" "}
         <a href="https://solpi.de" target="_blank">
           SOLPI
         </a>{" "}
-        to support me!
+        stake pool to support this project!
       </p>
       <p>
         Price data provided by{" "}
