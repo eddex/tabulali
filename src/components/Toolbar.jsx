@@ -1,10 +1,11 @@
 import ToolbarExportButton from "./Toolbar.ExportButton";
 import ToolbarImportButton from "./Toolbar.ImportButton";
+import SettingsButton from "./Toolbar.SettingsButton";
 
 const Toolbar = () => {
   return (
     <div className="mt-1">
-      <ToolbarExportButton /> <ToolbarImportButton />
+      <SettingsButton /> <ToolbarExportButton /> <ToolbarImportButton />
     </div>
   );
 };

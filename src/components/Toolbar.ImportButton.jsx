@@ -34,7 +34,7 @@ const ToolbarImportButton = () => {
         className="clickable"
         onClick={handleShow}
       >
-        Import wallet config
+        <i className="bi bi-upload"></i> Import wallet config
       </Badge>
       <Modal size="lg" show={show} onHide={handleClose}>
         <Modal.Header closeButton>

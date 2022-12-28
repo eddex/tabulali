@@ -37,7 +37,7 @@ const ToolbarExportButton = () => {
         className="clickable"
         onClick={handleShow}
       >
-        Export wallet config
+        <i className="bi bi-download"></i> Export wallet config
       </Badge>
       <Modal size="lg" show={show} onHide={handleClose}>
         <Modal.Header closeButton>

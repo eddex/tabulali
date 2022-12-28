@@ -25,8 +25,11 @@ const Summary = (props) => {
         Total balance: <b>ADA {totalAda}</b>
       </p>
       <p>
-        Total value: <b>CHF {totalValue}</b> (ADA/CHF:{" "}
-        {toLocalNumber(props.adaPrice)})
+        Total value:{" "}
+        <b>
+          {props.vsCurrency} {totalValue}
+        </b>{" "}
+        (ADA/{props.vsCurrency}: {toLocalNumber(props.adaPrice)})
       </p>
       <p>
         {props.pools && props.pools.length > 0 && (

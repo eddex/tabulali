@@ -6,3 +6,9 @@
   word-wrap: break-word;
   background-color: var(--bs-gray-900);
 }
+
+@media (min-width: 576px) {
+  .select-label {
+    margin-top: 1rem;
+  }
+}

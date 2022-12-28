@@ -24,6 +24,7 @@ const WalletList = (props) => {
             ada={account.total_balance / 1000000}
             pool={getPool(account.delegated_pool)}
             value={(account.total_balance / 1000000) * props.adaPrice}
+            vsCurrency={props.vsCurrency}
           />
         ))}
       {(!props.wallets || props.wallets.length === 0) && (

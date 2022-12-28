@@ -62,7 +62,10 @@ const Wallet = (props) => {
             Balance: <b>ADA {toLocalNumber(props.ada)}</b>
           </Col>
           <Col>
-            Value: <b>CHF {toLocalNumber(props.value, 2)}</b>
+            Value:{" "}
+            <b>
+              {props.vsCurrency} {toLocalNumber(props.value, 2)}
+            </b>
           </Col>
         </Row>
       </Card.Body>

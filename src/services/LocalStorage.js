@@ -1,6 +1,7 @@
-import { StorageUpdatedEvent } from "./Events";
+import { StorageUpdatedEvent, SettingsUpdatedEvent } from "./Events";
 
 const StakeAddressesLocalStorageKey = "wallets";
+const SettingsLocalStorageKey = "settings";
 
 export const addWalletToLocalStorage = (stakeKey) => {
   const wallets = JSON.parse(
@@ -77,4 +78,23 @@ export const importWalletConfig = (walletConfigString) => {
   } catch (e) {
     console.log("invalid wallet export: ", walletConfigString);
   }
+};
+
+export const getSettingsFromLocalStorage = () => {
+  const defaultSettings = { compareCurrencyId: "usd", compareCurrency: "USD" };
+  try {
+    const settings = JSON.parse(localStorage.getItem(SettingsLocalStorageKey));
+    if (settings) {
+      return settings;
+    }
+    overrideSettingsInLocalStorage(defaultSettings);
+  } catch (e) {
+    overrideSettingsInLocalStorage(defaultSettings);
+  }
+  return defaultSettings;
+};
+
+export const overrideSettingsInLocalStorage = (settings) => {
+  localStorage.setItem(SettingsLocalStorageKey, JSON.stringify(settings));
+  window.dispatchEvent(new Event(SettingsUpdatedEvent));
 };

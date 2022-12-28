@@ -11,14 +11,18 @@ import EpochProgress from "./components/EpochProgress";
 import Toolbar from "./components/Toolbar";
 
 import { getAllAccountsAsync, getPoolInfo } from "./services/KoiosClient";
-import { StorageUpdatedEvent } from "./services/Events";
-import { getWalletsFromLocalStorage } from "./services/LocalStorage";
+import { StorageUpdatedEvent, SettingsUpdatedEvent } from "./services/Events";
+import {
+  getWalletsFromLocalStorage,
+  getSettingsFromLocalStorage,
+} from "./services/LocalStorage";
 import { getAdaPrice } from "./services/CoingeckoClient";
 
 function App() {
   const [wallets, setWallets] = useState([]);
   const [pools, setPools] = useState([]);
   const [adaPrice, setAdaPrice] = useState(0);
+  const [settings, setSettings] = useState(getSettingsFromLocalStorage());
 
   const getWalletNameByStakeKey = (localWallets, stakeKey) => {
     let name = "";
@@ -52,8 +56,12 @@ function App() {
       extendedAccountInfos.map((w) => w.delegated_pool)
     );
     setPools(pools);
+  };
 
-    const adaPrice = await getAdaPrice("chf");
+  const onSettingsUpdated = async () => {
+    var newSettings = getSettingsFromLocalStorage();
+    setSettings(newSettings);
+    const adaPrice = await getAdaPrice(newSettings.compareCurrencyId);
     setAdaPrice(adaPrice);
   };
 
@@ -61,6 +69,7 @@ function App() {
   useEffect(() => {
     const loadData = async () => {
       await onWalletAdded();
+      await onSettingsUpdated();
     };
     loadData(); // directly calling an async method in useEffect() is not allowed
   }, []);
@@ -78,6 +87,19 @@ function App() {
       );
   }, []);
 
+  useEffect(() => {
+    function handleSettingsUpdatedEvent(_) {
+      console.log("::: App:SettingsUpdatedEvent");
+      onSettingsUpdated();
+    }
+    window.addEventListener(SettingsUpdatedEvent, handleSettingsUpdatedEvent);
+    return () =>
+      window.removeEventListener(
+        SettingsUpdatedEvent,
+        handleSettingsUpdatedEvent
+      );
+  }, []);
+
   return (
     <Container fluid="md">
       <Row>
@@ -87,7 +109,12 @@ function App() {
       </Row>
       <Row>
         <Col>
-          <Summary wallets={wallets} pools={pools} adaPrice={adaPrice} />
+          <Summary
+            wallets={wallets}
+            pools={pools}
+            adaPrice={adaPrice}
+            vsCurrency={settings.compareCurrency}
+          />
         </Col>
       </Row>
       <Row>
@@ -98,7 +125,12 @@ function App() {
       <hr />
       <Row>
         <Col>
-          <WalletList wallets={wallets} pools={pools} adaPrice={adaPrice} />
+          <WalletList
+            wallets={wallets}
+            pools={pools}
+            adaPrice={adaPrice}
+            vsCurrency={settings.compareCurrency}
+          />
         </Col>
       </Row>
       <Row>
