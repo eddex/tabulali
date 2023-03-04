@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import Wallet from "./Wallet";
 
 const WalletList = (props) => {
@@ -25,6 +23,7 @@ const WalletList = (props) => {
             pool={getPool(account.delegated_pool)}
             value={(account.total_balance / 1000000) * props.adaPrice}
             vsCurrency={props.vsCurrency}
+            assetList={account.assetList}
           />
         ))}
       {(!props.wallets || props.wallets.length === 0) && (

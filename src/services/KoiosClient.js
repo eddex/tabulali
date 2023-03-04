@@ -5,6 +5,7 @@ const KoiosProxyUrl = "http://localhost:5001";
 
 const CacheKeyGetStakeKeyByAddress = "StakeKeyByAddress";
 const CacheKeyGetAllAccounts = "AllAccounts";
+const CacheKeyGetAllAssets = "AllAssets";
 const CacheKeyGetPoolInfo = "PoolInfo";
 
 export const getStakeAddressByPaymentAddressAsync = async (paymentAddress) => {
@@ -53,6 +54,33 @@ export const getAllAccountsAsync = async (stakeAddresses, cached = false) => {
   try {
     const response = await Axios.request(options);
     setCache(CacheKeyGetAllAccounts, stakeAddresses, response.data);
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const getAllAssetsAsync = async (stakeAddresses) => {
+  console.log("::: KoiosClient:getAllAssetsAsync");
+
+  const data = getFromCache(CacheKeyGetAllAssets, stakeAddresses, 5);
+  if (data) return data;
+
+  const options = {
+    method: "POST",
+    url: `${KoiosProxyUrl}/api/v0/account_assets`,
+    params: { select: "stake_address,asset_list" },
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    data: {
+      _stake_addresses: stakeAddresses,
+    },
+  };
+  try {
+    const response = await Axios.request(options);
+    setCache(CacheKeyGetAllAssets, stakeAddresses, response.data);
     return response.data;
   } catch (e) {
     console.log(e);

@@ -9,16 +9,23 @@ import WalletList from "./components/WalletList";
 import Footer from "./components/Footer";
 import EpochProgress from "./components/EpochProgress";
 import Toolbar from "./components/Toolbar";
+import LoadingSpinner from "./components/LoadingSpinner";
 
-import { getAllAccountsAsync, getPoolInfo } from "./services/KoiosClient";
+import {
+  getAllAccountsAsync,
+  getAllAssetsAsync,
+  getPoolInfo,
+} from "./services/KoiosClient";
 import { StorageUpdatedEvent, SettingsUpdatedEvent } from "./services/Events";
 import {
   getWalletsFromLocalStorage,
   getSettingsFromLocalStorage,
 } from "./services/LocalStorage";
 import { getAdaPrice } from "./services/CoingeckoClient";
+import { hex2a } from "./services/HexConverter";
 
 function App() {
+  const [ready, setReady] = useState(false);
   const [wallets, setWallets] = useState([]);
   const [pools, setPools] = useState([]);
   const [adaPrice, setAdaPrice] = useState(0);
@@ -46,10 +53,17 @@ function App() {
     }
 
     const accountInfos = await getAllAccountsAsync(stakeKeys, true);
+    const assetLists = await getAllAssetsAsync(stakeKeys);
     if (accountInfos && accountInfos.length > 0) {
       var extendedAccountInfos = [];
       accountInfos.forEach((acc, _) => {
         acc.name = getWalletNameByStakeKey(localWallets, acc.stake_address);
+        acc.assetList =
+          assetLists.find((x) => x.stake_address === acc.stake_address)
+            ?.asset_list ?? [];
+        acc.assetList.sort((a, b) =>
+          hex2a(a.asset_name).localeCompare(hex2a(b.asset_name))
+        );
         extendedAccountInfos.push(acc);
       });
       setWallets(extendedAccountInfos);
@@ -73,6 +87,7 @@ function App() {
     const loadData = async () => {
       await onWalletAdded();
       await onSettingsUpdated();
+      setReady(true);
     };
     loadData(); // directly calling an async method in useEffect() is not allowed
   }, []);
@@ -128,12 +143,16 @@ function App() {
       <hr />
       <Row>
         <Col>
-          <WalletList
-            wallets={wallets}
-            pools={pools}
-            adaPrice={adaPrice}
-            vsCurrency={settings.compareCurrency}
-          />
+          {ready ? (
+            <WalletList
+              wallets={wallets}
+              pools={pools}
+              adaPrice={adaPrice}
+              vsCurrency={settings.compareCurrency}
+            />
+          ) : (
+            <LoadingSpinner />
+          )}
         </Col>
       </Row>
       <Row>

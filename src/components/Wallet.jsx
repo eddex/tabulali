@@ -9,6 +9,7 @@ import "./Wallet.css";
 import WalletTitleEdit from "./Wallet.TitleEdit";
 import { removeWalletFromLocalStorage } from "../services/LocalStorage";
 import { toLocalNumber } from "../services/Localization";
+import { hex2a } from "../services/HexConverter";
 
 const Wallet = (props) => {
   const [editTitle, setEditTitle] = useState(false);
@@ -68,6 +69,21 @@ const Wallet = (props) => {
               {props.vsCurrency} {toLocalNumber(props.value, 2)}
             </b>
           </Col>
+        </Row>
+        <Row>
+          <Col className="mt-2">
+            <b>Native assets</b>
+          </Col>
+        </Row>
+        <Row>
+          {props.assetList.map((asset) => (
+            <Col key={asset.fingerprint} sm="6" lg="4" xl="3">
+              <Row>
+                <Col>{hex2a(asset.asset_name)}:</Col>
+                <Col xs="auto">{asset.quantity}</Col>
+              </Row>
+            </Col>
+          ))}
         </Row>
       </Card.Body>
     </Card>
