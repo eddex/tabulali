@@ -93,7 +93,9 @@ function App() {
       setWallets(extendedAccountInfos);
 
       const pools = await getPoolInfo(
-        extendedAccountInfos.map((w) => w.delegated_pool)
+        extendedAccountInfos
+          .map((w) => w.delegated_pool)
+          .filter((delegated_pool) => delegated_pool !== null)
       );
       setPools(pools);
     }
