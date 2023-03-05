@@ -56,7 +56,22 @@ function App() {
       showNativeAssets = settings.showNativeAssets;
     }
 
-    const accountInfos = await getAllAccountsAsync(stakeKeys, true);
+    let accountInfos = await getAllAccountsAsync(stakeKeys, true);
+    // stakeKeys that are not delegated to a pool are not returned by the account_info_cached endpoint
+    if (!accountInfos || accountInfos.length < stakeKeys.length) {
+      let fetchedStakeKeys = accountInfos.map((a) => a.stake_address);
+      for (let i = 0; i < stakeKeys.length; i++) {
+        const stakeKey = stakeKeys[i];
+        let stakeKeysToFetch = [];
+        if (!fetchedStakeKeys.includes(stakeKey)) {
+          stakeKeysToFetch.push(stakeKey);
+        }
+        if (stakeKeysToFetch.length > 0) {
+          const infos = await getAllAccountsAsync(stakeKeysToFetch, false);
+          accountInfos = accountInfos.concat(infos);
+        }
+      }
+    }
 
     let assetLists = [];
     if (showNativeAssets) {
