@@ -17,6 +17,10 @@ The app tries to connect to `localhost:5001` if run locally.
 A simple proxy server can be found here: [eddex/koios-proxy](https://github.com/eddex/koios-proxy).
 You can configure the proxy url in `src/services/KoiosClient.js`, if you use a different proxy server.
 
+### Deploy to GitHib pages
+
+`npm run deploy`
+
 ## 📝 Roadmap
 
 ### Short term
@@ -52,3 +56,4 @@ You can configure the proxy url in `src/services/KoiosClient.js`, if you use a d
 - Logo contains an emoji designed by [OpenMoji](https://openmoji.org/) - the open-source emoji and icon project. License: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/#)
 - Using [Bootstrap](https://getbootstrap.com/) CSS framework with [bootswatch Quartz](https://bootswatch.com/quartz/) theme.
 - Prices are provided by [Coingecko](https://coingecko.com)
+- React GitHub pages deployment based on [gitname/react-gh-pages](https://github.com/gitname/react-gh-pages)
