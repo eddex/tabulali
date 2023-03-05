@@ -1,7 +1,9 @@
 import Axios from "axios";
 import { getFromCache, setCache } from "./MemoryCache";
 
-const KoiosProxyUrl = "http://localhost:5001";
+const KoiosProxyUrl = window.location.href.includes("localhost")
+  ? "http://localhost:5001"
+  : "https://koios-proxy-cloud-run-t4xl6kq4ia-od.a.run.app";
 
 const CacheKeyGetStakeKeyByAddress = "StakeKeyByAddress";
 const CacheKeyGetAllAccounts = "AllAccounts";
