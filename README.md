@@ -3,8 +3,7 @@
 <p>Tabulali - Cardano wallet aggregator</p>
 </h1>
 
-Simple website to get an aggregated overview of all your Cardano wallets.
-All data is stored locally in the browser.
+A simple website to get an aggregated overview of all your Cardano wallets.
 
 ## 💻 Development
 
@@ -12,7 +11,8 @@ Start the app: `npm start`
 
 ### Prerequisites
 
-To fetch data from the public [Koios](https://koios.rest) API, a proxy server is needed. The app tries to connect to `localhost:5001` by default.
+To fetch data from the public [Koios](https://koios.rest) API, a proxy server is needed.
+The app tries to connect to `localhost:5001` if run locally.
 
 A simple proxy server can be found here: [eddex/koios-proxy](https://github.com/eddex/koios-proxy).
 You can configure the proxy url in `src/services/KoiosClient.js`, if you use a different proxy server.
@@ -35,7 +35,7 @@ You can configure the proxy url in `src/services/KoiosClient.js`, if you use a d
 - [x] Configure preferred fiat currency
 - [x] Show total value (fiat)
 - [x] Show ADA price (fiat)
-- [ ] Set average buy price (fiat)
+- [ ] Setting for average buy price (fiat)
 - [ ] Show profit/loss (fiat)
 - [ ] Add wallet by AdaHandle
 
