@@ -70,21 +70,25 @@ const Wallet = (props) => {
             </b>
           </Col>
         </Row>
-        <Row>
-          <Col className="mt-2">
-            <b>Native assets</b>
-          </Col>
-        </Row>
-        <Row>
-          {props.assetList.map((asset) => (
-            <Col key={asset.fingerprint} sm="6" lg="4" xl="3">
-              <Row>
-                <Col>{hex2a(asset.asset_name)}:</Col>
-                <Col xs="auto">{asset.quantity}</Col>
-              </Row>
-            </Col>
-          ))}
-        </Row>
+        {props.assetList && props.assetList.length > 0 && (
+          <>
+            <Row>
+              <Col className="mt-2">
+                <b>Native assets</b>
+              </Col>
+            </Row>
+            <Row>
+              {props.assetList.map((asset) => (
+                <Col key={asset.fingerprint} sm="6" lg="4" xl="3">
+                  <Row>
+                    <Col>{hex2a(asset.asset_name)}:</Col>
+                    <Col xs="auto">{asset.quantity}</Col>
+                  </Row>
+                </Col>
+              ))}
+            </Row>
+          </>
+        )}
       </Card.Body>
     </Card>
   );

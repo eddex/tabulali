@@ -21,6 +21,7 @@ const SettingsButton = () => {
   const [originalSettings, setOriginalSettings] = useState();
   const [compareCurrencies, setCompareCurrencies] = useState();
   const [selectedCompareCurrency, setSelectedCompareCurrency] = useState();
+  const [showNativeAssets, setShowNativeAssets] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -38,10 +39,15 @@ const SettingsButton = () => {
     setSelectedCompareCurrency(e.target.value);
   };
 
+  const showNativeAssetsChanged = (e) => {
+    setShowNativeAssets(e.target.checked);
+  };
+
   const saveClicked = () => {
     let settings = { ...originalSettings };
     settings.compareCurrencyId = selectedCompareCurrency;
     settings.compareCurrency = selectedCompareCurrency.toUpperCase();
+    settings.showNativeAssets = showNativeAssets;
     overrideSettingsInLocalStorage(settings);
     setOriginalSettings(getSettingsFromLocalStorage());
     handleClose();
@@ -85,6 +91,20 @@ const SettingsButton = () => {
                     </option>
                   ))}
               </Form.Select>
+            </Col>
+          </Row>
+          <Row>
+            <Col sm="4" lg="3" className="select-label mt-2">
+              Show native assets:{" "}
+            </Col>
+            <Col>
+              <Form.Check
+                aria-label="Show native assets"
+                onChange={showNativeAssetsChanged}
+                checked={showNativeAssets}
+                label="(Warning: Don't enable if you have a large amount of assets)"
+                className="mt-2"
+              ></Form.Check>
             </Col>
           </Row>
         </Modal.Body>

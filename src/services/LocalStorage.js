@@ -81,7 +81,11 @@ export const importWalletConfig = (walletConfigString) => {
 };
 
 export const getSettingsFromLocalStorage = () => {
-  const defaultSettings = { compareCurrencyId: "usd", compareCurrency: "USD" };
+  const defaultSettings = {
+    compareCurrencyId: "usd",
+    compareCurrency: "USD",
+    showNativeAssets: false,
+  };
   try {
     const settings = JSON.parse(localStorage.getItem(SettingsLocalStorageKey));
     if (settings) {

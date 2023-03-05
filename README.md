@@ -41,7 +41,8 @@ You can configure the proxy url in `src/services/KoiosClient.js`, if you use a d
 
 ### Long term
 
-- [ ] Show list of native assets (FT & NFT)
+- [x] Show list of native assets (FT & NFT)
+- [x] Setting to enable/disable display of native assets
 - [ ] Show approximate ADA value of native assets
 - [ ] Wallet connect button for one click stake delegation (maybe using [MeshJS](https://mesh.martify.io/))
 

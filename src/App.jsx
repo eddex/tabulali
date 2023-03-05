@@ -43,7 +43,7 @@ function App() {
     return name;
   };
 
-  const onWalletAdded = async () => {
+  const onWalletAdded = async (showNativeAssets = null) => {
     const localWallets = getWalletsFromLocalStorage();
     const stakeKeys = localWallets ? localWallets.map((w) => w.stakeKey) : null;
 
@@ -52,10 +52,19 @@ function App() {
       return;
     }
 
+    if (showNativeAssets === null) {
+      showNativeAssets = settings.showNativeAssets;
+    }
+
     const accountInfos = await getAllAccountsAsync(stakeKeys, true);
-    const assetLists = await getAllAssetsAsync(stakeKeys);
+
+    let assetLists = [];
+    if (showNativeAssets) {
+      assetLists = await getAllAssetsAsync(stakeKeys);
+    }
+
     if (accountInfos && accountInfos.length > 0) {
-      var extendedAccountInfos = [];
+      let extendedAccountInfos = [];
       accountInfos.forEach((acc, _) => {
         acc.name = getWalletNameByStakeKey(localWallets, acc.stake_address);
         acc.assetList =
@@ -67,12 +76,12 @@ function App() {
         extendedAccountInfos.push(acc);
       });
       setWallets(extendedAccountInfos);
-    }
 
-    const pools = await getPoolInfo(
-      extendedAccountInfos.map((w) => w.delegated_pool)
-    );
-    setPools(pools);
+      const pools = await getPoolInfo(
+        extendedAccountInfos.map((w) => w.delegated_pool)
+      );
+      setPools(pools);
+    }
   };
 
   const onSettingsUpdated = async () => {
@@ -80,23 +89,25 @@ function App() {
     setSettings(newSettings);
     const adaPrice = await getAdaPrice(newSettings.compareCurrencyId);
     setAdaPrice(adaPrice);
+    // for some reason, the settings state is not updated after setSettings is called above
+    await onWalletAdded(newSettings.showNativeAssets);
   };
 
   // will be called twice in debug mode but not in prod due to UseStrict (see index.js)
   useEffect(() => {
     const loadData = async () => {
-      await onWalletAdded();
       await onSettingsUpdated();
+      await onWalletAdded();
       setReady(true);
     };
     loadData(); // directly calling an async method in useEffect() is not allowed
   }, []);
 
   useEffect(() => {
-    function handleStorageUpdatedEvent(_) {
+    const handleStorageUpdatedEvent = async (_) => {
       console.log("::: App:StorageUpdatedEvent");
-      onWalletAdded();
-    }
+      await onWalletAdded();
+    };
     window.addEventListener(StorageUpdatedEvent, handleStorageUpdatedEvent);
     return () =>
       window.removeEventListener(
@@ -106,10 +117,10 @@ function App() {
   }, []);
 
   useEffect(() => {
-    function handleSettingsUpdatedEvent(_) {
+    const handleSettingsUpdatedEvent = async (_) => {
       console.log("::: App:SettingsUpdatedEvent");
-      onSettingsUpdated();
-    }
+      await onSettingsUpdated();
+    };
     window.addEventListener(SettingsUpdatedEvent, handleSettingsUpdatedEvent);
     return () =>
       window.removeEventListener(
