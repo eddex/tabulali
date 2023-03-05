@@ -39,7 +39,7 @@ export const getAllAccountsAsync = async (stakeAddresses, cached = false) => {
   console.log("::: KoiosClient:getAllAccountsAsync");
 
   const data = getFromCache(CacheKeyGetAllAccounts, stakeAddresses, 5);
-  if (data) return data;
+  if (data && data.length > 0) return data;
 
   const options = {
     method: "POST",
