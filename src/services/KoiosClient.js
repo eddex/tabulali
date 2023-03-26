@@ -9,6 +9,8 @@ const CacheKeyGetStakeKeyByAddress = "StakeKeyByAddress";
 const CacheKeyGetAllAccounts = "AllAccounts";
 const CacheKeyGetAllAssets = "AllAssets";
 const CacheKeyGetPoolInfo = "PoolInfo";
+const CacheKeyActiveStakeAtEpoch = "ActiveStakeAtEpoch";
+const CacheKeyRewards = "Rewards";
 
 export const getStakeAddressByPaymentAddressAsync = async (paymentAddress) => {
   console.log("::: KoiosClient:getStakeKeyByAddressAsync");
@@ -134,6 +136,57 @@ export const getEpochProgress = async () => {
     const fullRange = epoch.end_time - epoch.start_time;
     const currentProgress = now - epoch.start_time;
     return currentProgress / fullRange;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const getActiveStakeForEpoch = async (epoch, stakeKeys) => {
+  console.log("::: KoiosClient:getActiveStakeForEpoch");
+
+  const cacheId = { epoch: epoch, stakeKeys: stakeKeys };
+  const data = getFromCache(CacheKeyActiveStakeAtEpoch, cacheId, null);
+  if (data) return data;
+
+  const options = {
+    method: "POST",
+    url: `${KoiosProxyUrl}/api/v0/account_history`,
+    headers: { accept: "application/json", "content-type": "application/json" },
+    data: {
+      _stake_addresses: stakeKeys,
+      _epoch_no: epoch,
+    },
+  };
+
+  try {
+    const response = await Axios.request(options);
+    setCache(CacheKeyActiveStakeAtEpoch, cacheId, response.data);
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const getRewards = async (stakeKeys) => {
+  console.log("::: KoiosClient:getRewards");
+
+  const cacheId = stakeKeys;
+  const data = getFromCache(CacheKeyRewards, cacheId, null);
+  if (data) return data;
+
+  const options = {
+    method: "POST",
+    url: `${KoiosProxyUrl}/api/v0/account_rewards`,
+    headers: { accept: "application/json", "content-type": "application/json" },
+    data: {
+      _stake_addresses: stakeKeys,
+    },
+  };
+
+  try {
+    const response = await Axios.request(options);
+    setCache(CacheKeyRewards, cacheId, response.data);
+    return response.data;
   } catch (e) {
     console.log(e);
   }

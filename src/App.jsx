@@ -150,7 +150,7 @@ function App() {
     <Container fluid="md">
       <Row>
         <Col>
-          <Toolbar />
+          <Toolbar stakeKeys={wallets.map((w) => w.stake_address)} />
         </Col>
       </Row>
       <Row>
