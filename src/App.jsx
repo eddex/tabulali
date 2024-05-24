@@ -73,9 +73,9 @@ function App() {
       }
     }
 
-    let assetLists = [];
+    let assets = [];
     if (showNativeAssets) {
-      assetLists = await getAllAssetsAsync(stakeKeys);
+      assets = await getAllAssetsAsync(stakeKeys);
     }
 
     if (accountInfos && accountInfos.length > 0) {
@@ -83,8 +83,7 @@ function App() {
       accountInfos.forEach((acc, _) => {
         acc.name = getWalletNameByStakeKey(localWallets, acc.stake_address);
         acc.assetList =
-          assetLists.find((x) => x.stake_address === acc.stake_address)
-            ?.asset_list ?? [];
+          assets.filter((x) => x.stake_address === acc.stake_address) ?? [];
         acc.assetList.sort((a, b) =>
           hex2a(a.asset_name).localeCompare(hex2a(b.asset_name))
         );

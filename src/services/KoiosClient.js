@@ -73,7 +73,7 @@ export const getAllAssetsAsync = async (stakeAddresses) => {
   const options = {
     method: "POST",
     url: `${KoiosProxyUrl}/api/v0/account_assets`,
-    params: { select: "stake_address,asset_list" },
+    params: { select: "stake_address,asset_name,quantity,fingerprint" },
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
