@@ -4,6 +4,7 @@ import { getFromCache, setCache } from "./MemoryCache";
 const KoiosProxyUrl = window.location.href.includes("localhost")
   ? "http://localhost:5001"
   : "https://koios-proxy-cloud-run-t4xl6kq4ia-od.a.run.app";
+const apiVersion = "/api/v1";
 
 const CacheKeyGetStakeKeyByAddress = "StakeKeyByAddress";
 const CacheKeyGetAllAccounts = "AllAccounts";
@@ -20,7 +21,7 @@ export const getStakeAddressByPaymentAddressAsync = async (paymentAddress) => {
 
   const options = {
     method: "POST",
-    url: `${KoiosProxyUrl}/api/v0/address_info`,
+    url: `${KoiosProxyUrl}${apiVersion}/address_info`,
     params: { select: "stake_address" },
     headers: { Accept: "application/json", "Content-Type": "application/json" },
     data: {
@@ -45,7 +46,7 @@ export const getAllAccountsAsync = async (stakeAddresses, cached = false) => {
 
   const options = {
     method: "POST",
-    url: `${KoiosProxyUrl}/api/v0/account_info${cached ? "_cached" : ""}`,
+    url: `${KoiosProxyUrl}${apiVersion}/account_info${cached ? "_cached" : ""}`,
     params: { select: "stake_address,delegated_pool,total_balance" },
     headers: {
       Accept: "application/json",
@@ -72,7 +73,7 @@ export const getAllAssetsAsync = async (stakeAddresses) => {
 
   const options = {
     method: "POST",
-    url: `${KoiosProxyUrl}/api/v0/account_assets`,
+    url: `${KoiosProxyUrl}${apiVersion}/account_assets`,
     params: { select: "stake_address,asset_name,quantity,fingerprint" },
     headers: {
       Accept: "application/json",
@@ -99,7 +100,7 @@ export const getPoolInfo = async (bech32PoolIds) => {
 
   const options = {
     method: "POST",
-    url: `${KoiosProxyUrl}/api/v0/pool_info`,
+    url: `${KoiosProxyUrl}${apiVersion}/pool_info`,
     params: { select: "pool_id_bech32,meta_json" },
     headers: { Accept: "application/json", "Content-Type": "application/json" },
     data: {
@@ -120,7 +121,7 @@ export const getEpochProgress = async () => {
   console.log("::: KoiosClient:getEpochProgress");
   const options = {
     method: "GET",
-    url: `${KoiosProxyUrl}/api/v0/epoch_info`,
+    url: `${KoiosProxyUrl}${apiVersion}/epoch_info`,
     params: { order: "epoch_no.desc", limit: "2" },
     headers: { Accept: "application/json" },
   };
@@ -150,7 +151,7 @@ export const getActiveStakeForEpoch = async (epoch, stakeKeys) => {
 
   const options = {
     method: "POST",
-    url: `${KoiosProxyUrl}/api/v0/account_history`,
+    url: `${KoiosProxyUrl}${apiVersion}/account_history`,
     headers: { accept: "application/json", "content-type": "application/json" },
     data: {
       _stake_addresses: stakeKeys,
@@ -176,7 +177,7 @@ export const getRewards = async (stakeKeys) => {
 
   const options = {
     method: "POST",
-    url: `${KoiosProxyUrl}/api/v0/account_rewards`,
+    url: `${KoiosProxyUrl}${apiVersion}/account_rewards`,
     headers: { accept: "application/json", "content-type": "application/json" },
     data: {
       _stake_addresses: stakeKeys,
