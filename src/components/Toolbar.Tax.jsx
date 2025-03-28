@@ -9,7 +9,7 @@ import { toLocalNumber } from "../services/Localization";
 
 import "./Toolbar.css";
 
-const ToolbarTax2023 = (props) => {
+const ToolbarTax = (props) => {
   const [hovering, setHovering] = useState(false);
   const [show, setShow] = useState(false);
   const [lovelaceBalance, setLovelaceBalance] = useState(0);
@@ -18,13 +18,12 @@ const ToolbarTax2023 = (props) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const endOfYearEpoch = 458; // first block Dec 31, 2023 10:45:01 PM
-  const firstRewardEpoch = 386; // rewards from epoch 384 payed out in epoch 386 (first epoch to start in 2023)
-  const lastRewardEpoch = 458; // rewards from epoch 456 payed out in epoch 458 (last epoch to start in 2023)
-
   const loadActiveStakeAtEpoch = async () => {
     let totalBalance = 0;
-    var result = await getActiveStakeForEpoch(endOfYearEpoch, props.stakeKeys);
+    var result = await getActiveStakeForEpoch(
+      props.lastRewardEpoch,
+      props.stakeKeys
+    );
     if (result && result.length > 0) {
       for (let i = 0; i < result.length; i++) {
         const activeStake = result[i].history[0].active_stake;
@@ -43,8 +42,8 @@ const ToolbarTax2023 = (props) => {
         for (let j = 0; j < stakeKeyRewards.rewards.length; j++) {
           const reward = stakeKeyRewards.rewards[j];
           if (
-            reward.spendable_epoch >= firstRewardEpoch &&
-            reward.spendable_epoch <= lastRewardEpoch
+            reward.spendable_epoch >= props.firstRewardEpoch &&
+            reward.spendable_epoch <= props.lastRewardEpoch
           ) {
             totalRewards = totalRewards + parseInt(reward.amount, 10);
           }
@@ -73,11 +72,11 @@ const ToolbarTax2023 = (props) => {
         className="clickable"
         onClick={handleShow}
       >
-        <i className="bi bi-coin"></i> Taxes 2023
+        <i className="bi bi-coin"></i> Taxes {props.year}
       </Badge>
       <Modal size="lg" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Tax information 2023</Modal.Title>
+          <Modal.Title>Tax information {props.year}</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
@@ -91,7 +90,7 @@ const ToolbarTax2023 = (props) => {
           </Row>
           <Row>
             <Col xs="12" sm="5" lg="3">
-              Staking rewards 2023:
+              Staking rewards {props.year}:
             </Col>
             <Col>
               <b>ADA {toLocalNumber(lovelaceRewards / 1000000)}</b>
@@ -102,13 +101,13 @@ const ToolbarTax2023 = (props) => {
               <i>
                 The EoY balance is based on the snapshot from the start of{" "}
                 <a
-                  href="https://explorer.cardano.org/en/epoch?number=458"
+                  href={`https://cexplorer.io/epoch/${props.lastRewardEpoch}`}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  epoch 458
+                  epoch {props.lastRewardEpoch}
                 </a>
-                : 2023/12/31 22:45:01 UTC.
+                : {props.lastRewardEpochTimestamp}.
               </i>
             </Col>
           </Row>
@@ -117,37 +116,42 @@ const ToolbarTax2023 = (props) => {
               <i>
                 To calculate the staking rewards, all rewards received from{" "}
                 <a
-                  href="https://explorer.cardano.org/en/epoch?number=384"
+                  href={`https://cexplorer.io/epoch/${
+                    props.firstRewardEpoch - 2
+                  }`}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  epoch 384
+                  epoch {props.firstRewardEpoch - 2}
                 </a>{" "}
                 (payed out in{" "}
                 <a
-                  href="https://explorer.cardano.org/en/epoch?number=386"
+                  href={`https://cexplorer.io/epoch/${props.firstRewardEpoch}`}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  epoch 386
+                  epoch {props.firstRewardEpoch}
                 </a>{" "}
-                2023/01/05) to{" "}
+                {props.firstRewardEpochTimestamp}) to{" "}
                 <a
-                  href="https://explorer.cardano.org/en/epoch?number=456"
+                  href={`https://cexplorer.io/epoch/${
+                    props.lastRewardEpoch - 2
+                  }`}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  epoch 456
+                  epoch {props.lastRewardEpoch - 2}
                 </a>{" "}
                 (payed out in{" "}
                 <a
-                  href="https://explorer.cardano.org/en/epoch?number=458"
+                  href={`https://cexplorer.io/epoch/${props.lastRewardEpoch}`}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  epoch 458
+                  epoch {props.lastRewardEpoch}
                 </a>{" "}
-                at 2023/12/31) are taken into consideration.
+                at {props.lastRewardEpochTimestamp}) are taken into
+                consideration.
               </i>
             </Col>
           </Row>
@@ -172,4 +176,4 @@ const ToolbarTax2023 = (props) => {
   );
 };
 
-export default ToolbarTax2023;
+export default ToolbarTax;
