@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/tabulali/static/css/main.fc023407.css",
-    "main.js": "/tabulali/static/js/main.8e5a405a.js",
+    "main.js": "/tabulali/static/js/main.3406d853.js",
     "static/js/787.0a345217.chunk.js": "/tabulali/static/js/787.0a345217.chunk.js",
     "static/media/bootstrap-icons.woff?": "/tabulali/static/media/bootstrap-icons.6959d0d983ee318f8880.woff",
     "static/media/bootstrap-icons.woff2?": "/tabulali/static/media/bootstrap-icons.b2e5aab643c6f0fd2da6.woff2",
@@ -9,11 +9,11 @@
     "index.html": "/tabulali/index.html",
     "static/media/loading_spinner.svg": "/tabulali/static/media/loading_spinner.004571b3976c3230bf75af18abfc3e9b.svg",
     "main.fc023407.css.map": "/tabulali/static/css/main.fc023407.css.map",
-    "main.8e5a405a.js.map": "/tabulali/static/js/main.8e5a405a.js.map",
+    "main.3406d853.js.map": "/tabulali/static/js/main.3406d853.js.map",
     "787.0a345217.chunk.js.map": "/tabulali/static/js/787.0a345217.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.fc023407.css",
-    "static/js/main.8e5a405a.js"
+    "static/js/main.3406d853.js"
   ]
 }
